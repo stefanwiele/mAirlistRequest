@@ -1,0 +1,79 @@
+var
+	iInsertLocation, i: INTEGER;
+const	
+	
+	//Only change these values	
+
+	sDummyTitle = 'Request'; // Title of Dummy item to replace
+
+function findDummy: integer;
+begin
+
+ 
+
+  for i := 0 to Playlist(0).GetCount -1 do
+  begin
+  	if CurrentPlaylist.GetItem(i).GetTitle = sDummyTitle then begin
+		iInsertLocation := i+1;			
+		break;
+	end;
+  end;
+
+result := iInsertLocation;
+
+end;
+
+procedure OnRESTRequest(Request: TRESTRequest; var Response: IPersistentStorage);
+	var
+		song: IPersistentObject;
+		dpi: IDummyPlaylistItem;
+		dbi: IDatabase;
+		items: IPersistentArray;
+
+		searchString: string;
+		songPlaylist: IPlaylist;
+		songPlaylistItem: IPlaylistItem;
+		folderID, resultItem: string;
+		insertItemID: string;
+		params: IStrings;
+  
+	begin
+	if (Request.Document = '/insertitem') and (Request.UploadDocument.GetType = ptObject) and Request.UploadDocument.AsObject.FindObject('song', song) then begin
+
+		insertItemID := song.FindString('id', '')
+
+		if findDummy > 0 then begin			
+
+			CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
+			CurrentPlaylist.Delete(i);
+			Response := Factory.CreatePersistentObject.SetString('success','true');	
+		end
+		else
+		begin
+			Response := Factory.CreatePersistentObject.SetString('success','false');	
+		end;
+
+			
+		
+	end
+	else if (Request.Document = '/searchdatabase') and (Request.UploadDocument.GetType = ptObject) and Request.UploadDocument.AsObject.FindObject('song', song) then begin
+	
+		searchString := song.FindString('search', '');
+
+		params := Factory.CreateStrings;
+		params.AddValue('search', searchString);
+		params.AddValue('fields', 'All');
+		params.AddValue('limit', '0');
+		params.AddValue('station', '1');
+		items := IDBConnection(Database(0)).ProcessRequest('GET', '/items', params, nil, nil).AsArray;
+
+		if items.GetCount = 0 then begin		
+			exit;					
+		end;
+				
+		Response := items;		
+  end;
+end;
+
+
+
