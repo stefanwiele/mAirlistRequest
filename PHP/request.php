@@ -1,5 +1,23 @@
 <?php
- $order_id = htmlspecialchars($_GET["id"]);
+
+//get settings
+include './inc/settings.inc.php';
+
+//get query string parameters
+$id = htmlspecialchars($_GET["id"]);
+
+function searchmAirlistDatabase() {
+
+}
+
+function insertmAirlistRequest() {
+	$apiRequestUrl = $mairlistIP.'/insertitem';
+
+}
+
+
+
+ 
 
  $url = "http://localhost:9300/insertitem";
  
