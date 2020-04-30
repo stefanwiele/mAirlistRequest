@@ -1,42 +1,55 @@
-<?php
-if (isset($_POST['order_id']) && $_POST['order_id']!="") {
- $order_id = $_POST['order_id'];
- $url = "http://localhost:9300/searchdatabase";
- 
- $client = curl_init($url);
- $username = 'test';
- $password = 'secret';
+<html>
+    <head>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	
 
- $data = array("search" => $order_id); 
- $dataCore = array("song" => $data);                                                                   
- $data_string = json_encode($dataCore);       
+    	<title>mAirlist search</title>
+	</head>
+	
+    <body>
+		<br />
+		
+        <input type="text" id="search" />
+		<input type="button" id="getData" value="Search"/>
 
- curl_setopt($client,CURLOPT_USERPWD, $username . ":" . $password);
- curl_setopt($client,CURLOPT_CUSTOMREQUEST, "POST");
- curl_setopt($client, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
- curl_setopt($client, CURLOPT_POSTFIELDS, $data_string);
- curl_setopt($client,CURLOPT_RETURNTRANSFER, true);
-
- $response = curl_exec($client);
-
- $result = json_decode($response);
-
- echo '<table>';
- foreach ($result as $song) {
-	echo '<tr><td>';
-	echo $song->Artist.'</td><td>';
-	echo $song->Title.'</td><td>';
-	echo '<a href="request.php?id='.$song->DatabaseID.'">Request Song</a></td></tr>';
-}
- echo '</table>';
+		<table id="dataTable">
+			<tr>
+				<th>Artist</th>
+				<th>Title</th>
+			</tr>		
+		</table>
+		<br />
 
 
-}
 
-?>
-<form action="" method="POST">
-<label>Search mAirlist Database:</label><br />
-<input type="text" name="order_id" placeholder="Search" required/>
-<br /><br />
-<button type="submit" name="submit">Submit</button>
-</form>
+		<script>
+
+			$(document).ready(function(){
+    				$('#getData').on('click',function(){
+					var search = $('#search').val();
+					$('#dataTable').removeData();
+					$.ajax({
+						url: "request.php",
+						type: "GET",
+						data:{search:search},
+						dataType:"JSON",						
+						success:function(res) {
+							
+							var data_table = '';
+							$.each(res, function(i, item){
+								
+								data_table += "<tr><td>"+item.Artist+"</td>";
+								data_table += "<td>"+item.Title+"</td>";
+								data_table += "<td><a href='"+item.DatabaseID+"'>Request</a></td></tr>";
+							});	
+						$('#dataTable').append(data_table);
+						}
+						   			
+					});
+					
+				});			
+			});
+
+  	   	</script>
+        
+</html>

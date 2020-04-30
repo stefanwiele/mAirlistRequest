@@ -1,5 +1,6 @@
 <?php
-    function searchmAirlistDatabase($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$search) {
+
+function searchmAirlistDatabase($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$search) {
 
     //Contruct REST url
     $apiRequestUrl = $mlistIP . ':' . $mlistPort . '/searchdatabase';
@@ -25,9 +26,10 @@
     $response = curl_exec($client);
 
     return $response;
-    }
+}
 
-    function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$dbid) {
+function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$dbid) {
+    
     //Contruct REST url
     $apiRequestUrl = $mlistIP . ':' . $mlistPort . '/insertitem';
 
@@ -52,5 +54,5 @@
     $response = curl_exec($client);
 
     return $response;
-    }
+}
 ?>
