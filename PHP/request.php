@@ -1,7 +1,7 @@
 <?php
 
 //get settings
-include './inc/settings.inc.php';
+include('./inc/settings.inc.php');
 
 //get query string parameters
 $id = htmlspecialchars($_GET["id"]);
@@ -10,12 +10,12 @@ function searchmAirlistDatabase() {
 
 }
 
-function insertmAirlistRequest($dbid) {
+function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$dbid) {
 	//Contruct REST url
-	$apiRequestUrl = $mairlistIP . '/insertitem';
+	$apiRequestUrl = $mlistIP . ':' . $mlistPort . '/insertitem';
 
 	//Create new CURL instance
-	$client = curl_init($url);
+	$client = curl_init($apiRequestUrl);
 
 	//Get mAirlistDB ID
 	$data = array("id" => $dbid); 
@@ -25,7 +25,7 @@ function insertmAirlistRequest($dbid) {
 	$data_string = json_encode($dataCore);  
 
 	//Set CURL options 
-	curl_setopt($client,CURLOPT_USERPWD, $mairlistUser . ":" . $mairlistPassword );
+	curl_setopt($client,CURLOPT_USERPWD, $mlistUser . ":" . $mlistPassword);
  	curl_setopt($client,CURLOPT_CUSTOMREQUEST, "POST");
  	curl_setopt($client, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
  	curl_setopt($client, CURLOPT_POSTFIELDS, $data_string);
@@ -35,7 +35,7 @@ function insertmAirlistRequest($dbid) {
 	$response = curl_exec($client);
 
 	//Get Response
- 	$result = json_decode($response);
+	 $result = json_decode($response);
 
 	//Check Response 
  	if ($result->success == 'true') {
@@ -46,8 +46,18 @@ function insertmAirlistRequest($dbid) {
 
 }
 
-if (isset($_POST['id']) && $_POST['id']!="") {
-	
+
+
+if (isset($_GET["id"]) && $_GET["id"]!="") {
+
+	echo 'Trying to request song';
+
+	if (insertmAirlistRequest($mairlistIP,$mairlistPort,$mairlistUser,$mairlistPassword,$_GET['id'])) {
+		echo 'Request Added';
+	}
+	else {
+		echo 'Request Failed';
+	}
 
 }
 
