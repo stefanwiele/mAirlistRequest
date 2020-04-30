@@ -39,29 +39,16 @@ function insertmAirlistRequest($dbid) {
 
 	//Check Response 
  	if ($result->success == 'true') {
-		echo 'Request successfull';
+		return true;
  	} else {
-		echo 'Request failed';
+		return false;
 	}
 
 }
 
+if (isset($_POST['id']) && $_POST['id']!="") {
+	
 
-
- 
-
- $url = "http://localhost:9300/insertitem";
- 
- 
- $username = 'test';
- $password = 'secret';
-
- $data = array("id" => $order_id); 
- $dataCore = array("song" => $data);                                                                   
- $data_string = json_encode($dataCore);       
-
- 
-
- 
+}
 
 ?>
