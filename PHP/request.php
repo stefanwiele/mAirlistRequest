@@ -10,8 +10,39 @@ function searchmAirlistDatabase() {
 
 }
 
-function insertmAirlistRequest() {
-	$apiRequestUrl = $mairlistIP.'/insertitem';
+function insertmAirlistRequest($dbid) {
+	//Contruct REST url
+	$apiRequestUrl = $mairlistIP . '/insertitem';
+
+	//Create new CURL instance
+	$client = curl_init($url);
+
+	//Get mAirlistDB ID
+	$data = array("id" => $dbid); 
+
+	//Create JSON to post
+	$dataCore = array("song" => $data); 
+	$data_string = json_encode($dataCore);  
+
+	//Set CURL options 
+	curl_setopt($client,CURLOPT_USERPWD, $mairlistUser . ":" . $mairlistPassword );
+ 	curl_setopt($client,CURLOPT_CUSTOMREQUEST, "POST");
+ 	curl_setopt($client, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+ 	curl_setopt($client, CURLOPT_POSTFIELDS, $data_string);
+	curl_setopt($client,CURLOPT_RETURNTRANSFER, true);
+	
+	//Execute CURL
+	$response = curl_exec($client);
+
+	//Get Response
+ 	$result = json_decode($response);
+
+	//Check Response 
+ 	if ($result->success == 'true') {
+		echo 'Request successfull';
+ 	} else {
+		echo 'Request failed';
+	}
 
 }
 
@@ -21,7 +52,7 @@ function insertmAirlistRequest() {
 
  $url = "http://localhost:9300/insertitem";
  
- $client = curl_init($url);
+ 
  $username = 'test';
  $password = 'secret';
 
@@ -29,19 +60,8 @@ function insertmAirlistRequest() {
  $dataCore = array("song" => $data);                                                                   
  $data_string = json_encode($dataCore);       
 
- curl_setopt($client,CURLOPT_USERPWD, $username . ":" . $password);
- curl_setopt($client,CURLOPT_CUSTOMREQUEST, "POST");
- curl_setopt($client, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
- curl_setopt($client, CURLOPT_POSTFIELDS, $data_string);
- curl_setopt($client,CURLOPT_RETURNTRANSFER, true);
+ 
 
- $response = curl_exec($client);
- $result = json_decode($response);
-
- if ($result->success == 'true') {
-	echo 'Request successfull';
- } else {
-	echo 'Request failed';
-}
+ 
 
 ?>
