@@ -60,4 +60,17 @@ function addRequestToDB($databaseID,$ipaddress) {
     $db = new SQLite3('mAirlistRequest.db');
     $db->exec("INSERT INTO requests(databaseID, ipaddress) VALUES('$databaseID', '$ipaddress')");
 }
+
+function getLastRequestFromDB(){
+    $db = new SQLite3('mAirlistRequest.db');
+    $res = $db->query("SELECT * FROM requests LIMIT 1");
+    $dbid = '';
+
+    while ($row = $res->fetchArray()) {
+        $dbid = $row[1];
+    }
+
+    return $dbid;
+}
+
 ?>

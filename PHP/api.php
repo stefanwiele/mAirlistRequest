@@ -25,14 +25,8 @@
 
             switch ($request[0]) {
                 case 'getrequest':
-                    if (!isset($jsonObject)) $jsonObject = new stdClass();
-                    $jsonObject->request = $request[0];
-                    $jsonObject->databaseID = '1';
-
-                    $jsonObject = json_encode($jsonObject);
-
-                    //echo $jsonObject;
-                    echo '1';
+                    
+                    echo getLastRequestFromDB();
             
                 break;    
                 case 'setrequest':
@@ -42,6 +36,7 @@
                         $current_ip = $_SERVER['REMOTE_ADDR'];
                 
                         addRequestToDB($id,$current_ip);
+                        echo 'success';
                     }
                     else {
                         echo 'database id missing';

@@ -4,16 +4,15 @@
 include('./inc/settings.inc.php');
 include('./inc/functions.inc.php');
 
+//This is used when the mAirlist Rest API is available for lookup and pushing requests
+
 //Check if request has an ID
 if (isset($_GET["id"]) && ($_GET["id"]) !="") {
 
 	$id = htmlspecialchars($_GET["id"]);
-	$current_ip = $_SERVER['REMOTE_ADDR'];
-
-	addRequestToDB($id,$current_ip);
-
+	
 	//Using mAirlist Rest API
-	//echo (insertmAirlistRequest($mairlistIP,$mairlistPort,$mairlistUser,$mairlistPassword,$id));
+	echo (insertmAirlistRequest($mairlistIP,$mairlistPort,$mairlistUser,$mairlistPassword,$id));
 	
 }
 

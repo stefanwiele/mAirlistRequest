@@ -12,22 +12,14 @@
         <input type="text" id="search" />
 		<input type="button" id="getData" value="Search"/>
 
-		<table id="dataTable">
-			<tr>
-				<th>Artist</th>
-				<th>Title</th>
-			</tr>		
-		</table>
+		<div id='results'></div>	
 		<br />
 
-
-
 		<script>
-
 			$(document).ready(function(){
     				$('#getData').on('click',function(){
 					var search = $('#search').val();
-					$('#dataTable').removeData();
+					
 					$.ajax({
 						url: "request.php",
 						type: "GET",
@@ -40,15 +32,30 @@
 								
 								data_table += "<tr><td>"+item.Artist+"</td>";
 								data_table += "<td>"+item.Title+"</td>";
-								data_table += "<td><a href='"+item.DatabaseID+"'>Request</a></td></tr>";
+								data_table += "<td><p class='test'>"+item.DatabaseID+"</p></td></tr>";
 							});	
-						$('#dataTable').append(data_table);
+						$('#results').append(data_table);
 						}
 						   			
 					});
 					
-				});			
-			});
+				});
+				$('#results').on('click', 'p.test',function(){
+						
+					var id = $(this).text();
+						$.ajax({
+						url: "api.php"+"/setrequest/"+id,
+						type: "GET",	
+						dataType: 'text',				
+						success:function() {
+							alert('request added');
+						}
+					});
+					});							
+
+			});			
+			
+			
 
   	   	</script>
         
