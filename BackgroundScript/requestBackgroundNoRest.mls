@@ -1,0 +1,44 @@
+var
+	iInsertLocation, i: INTEGER;
+	insertItemID: string;
+const	
+	
+	//Only change these values	
+
+	sDummyTitle = 'Request'; // Title of Dummy item to replace
+
+function findDummy: integer;
+begin
+
+	for i := 0 to Playlist(0).GetCount -1 do
+	begin
+		if CurrentPlaylist.GetItem(i).GetTitle = sDummyTitle then begin
+			iInsertLocation := i+1;			
+			break;
+		end;
+	end;
+
+	result := iInsertLocation;
+
+end;
+
+function getRequestFromAPI: string;
+begin
+	result := HTTPGet('http://192.168.1.65:8000/api.php/getrequest');
+end;
+
+begin
+
+	if findDummy > 0 then begin			
+
+		insertItemID := getRequestFromAPI;
+		CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
+		CurrentPlaylist.Delete(i);
+		//Response := Factory.CreatePersistentObject.SetString('success','true');	
+	end
+	else
+	begin
+		//Response := Factory.CreatePersistentObject.SetString('success','false');	
+	end;
+	
+end.
