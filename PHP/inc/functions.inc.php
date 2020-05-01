@@ -58,18 +58,21 @@ function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$db
 
 function addRequestToDB($databaseID,$ipaddress) {
     $db = new SQLite3('mAirlistRequest.db');
-    $db->exec("INSERT INTO requests(databaseID, ipaddress) VALUES('$databaseID', '$ipaddress')");
-}
+    $date = date('m/d/Y h:i:s a', time());
+
+    $db->exec("INSERT INTO requests(databaseID, ipaddress, datetime, active) VALUES('$databaseID', '$ipaddress', '$date', 'true')");
+}    
 
 function getLastRequestFromDB(){
     $db = new SQLite3('mAirlistRequest.db');
-    $res = $db->query("SELECT * FROM requests LIMIT 1");
+    $res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
     $dbid = '';
 
     while ($row = $res->fetchArray()) {
         $dbid = $row[1];
+        $db->exec("UPDATE requests SET active='false' WHERE databaseID='".$dbid."'");
     }
-
+    
     return $dbid;
 }
 

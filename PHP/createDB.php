@@ -2,7 +2,7 @@
 
     //get settings
     include('./inc/settings.inc.php');
-    //limit access to the api to only the mAirlist PC
+    //limit access to the database creation to only the mAirlist PC
 
     if ($limitApiAccess) {
         $current_ip = $_SERVER['REMOTE_ADDR'];
