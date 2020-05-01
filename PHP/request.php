@@ -8,7 +8,12 @@ include('./inc/functions.inc.php');
 if (isset($_GET["id"]) && ($_GET["id"]) !="") {
 
 	$id = htmlspecialchars($_GET["id"]);
-	echo (insertmAirlistRequest($mairlistIP,$mairlistPort,$mairlistUser,$mairlistPassword,$id));
+	$current_ip = $_SERVER['REMOTE_ADDR'];
+
+	addRequestToDB($id,$current_ip);
+
+	//Using mAirlist Rest API
+	//echo (insertmAirlistRequest($mairlistIP,$mairlistPort,$mairlistUser,$mairlistPassword,$id));
 	
 }
 

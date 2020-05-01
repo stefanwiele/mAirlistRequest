@@ -55,4 +55,9 @@ function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$db
 
     return $response;
 }
+
+function addRequestToDB($databaseID,$ipaddress) {
+    $db = new SQLite3('mAirlistRequest.db');
+    $db->exec("INSERT INTO requests(databaseID, ipaddress) VALUES('$databaseID', '$ipaddress')");
+}
 ?>
