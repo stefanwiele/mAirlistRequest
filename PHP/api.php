@@ -6,14 +6,16 @@
 
     //limit access to the api to only the mAirlist PC
 
+    $getAllowed = true;
+    
     if ($limitApiAccess) {
         $current_ip = $_SERVER['REMOTE_ADDR'];
 
         if($allowIpApi <> $current_ip)
         {            
-            echo $current_ip.' not allowed';
-            exit;
-        }
+            $getAllowed = false;
+            
+        } 
     } 
     
     // get the HTTP method, path and body of the request
@@ -24,12 +26,13 @@
         case 'GET':
 
             switch ($request[0]) {
-                case 'getrequest':
-                    
+                case 'getrequest':                    
+
+                    if (!$getAllowed) {echo 'not allowed'; exit;};
                     echo getLastRequestFromDB();
             
                 break;    
-                case 'setrequest':
+                case 'setrequest':                    
 
                     if (isset($request[1])) {
                         $id = $request[1];
