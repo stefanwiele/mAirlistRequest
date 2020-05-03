@@ -4,54 +4,79 @@
 
 <?php
 
+function import_csv_to_sqlite(&$pdo, $csv_path, $options = array())
+{
+	extract($options);
+	
+	if (($csv_handle = fopen($csv_path, "r")) === FALSE)
+		throw new Exception('Cannot open CSV file');
+		
+	if(!$delimiter)
+		$delimiter = ',';
+		
+	if(!$table)
+		$table = preg_replace("/[^A-Z0-9]/i", '', basename($csv_path));
+	
+	if(!$fields){
+		$fields = array_map(function ($field){
+			return strtolower(preg_replace("/[^A-Z0-9]/i", '', $field));
+		}, fgetcsv($csv_handle, 0, $delimiter));
+	}
+	
+	$create_fields_str = join(', ', array_map(function ($field){
+		return "$field TEXT NULL";
+	}, $fields));
+	
+	$pdo->beginTransaction();
+        
+	$create_table_sql = "CREATE TABLE IF NOT EXISTS $table ($create_fields_str)";
+    $pdo->exec($create_table_sql);     
+
+	$insert_fields_str = join(', ', $fields);
+	$insert_values_str = join(', ', array_fill(0, count($fields),  '?'));
+	$insert_sql = "INSERT INTO $table ($insert_fields_str) VALUES ($insert_values_str)";
+	$insert_sth = $pdo->prepare($insert_sql);
+      
+	$inserted_rows = 0;
+	while (($data = fgetcsv($csv_handle, 0, $delimiter)) !== FALSE) {
+        $insert_sth->execute($data);       
+		$inserted_rows++;
+	}
+	
+	$pdo->commit();
+	
+	fclose($csv_handle);
+	
+	return array(
+			'table' => $table,
+			'fields' => $fields,
+			'insert' => $insert_sth,
+			'inserted_rows' => $inserted_rows
+		);
+
+}
+
 if(isset($_POST['submit'])) 
 { 
 
-$csv = array();
+    $csv = array();
 
-// check there are no errors
-if($_FILES['csv']['error'] == 0){
-    $name = $_FILES['csv']['name'];
-    //$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
-    $type = $_FILES['csv']['type'];
-    $tmpName = $_FILES['csv']['tmp_name'];
+    
+    // check there are no errors
+    if($_FILES['csv']['error'] == 0){
+        
+        $name = $_FILES['csv']['tmp_name'];              
+        //$pdo = new SQLite3('mAirlistRequest.db');
+        $pdo = new PDO('sqlite:mAirlistRequest.db');
 
-    // check the file is a csv
-    //if($ext === 'csv'){
-        if(($handle = fopen($tmpName, 'r')) !== FALSE) {
-            // necessary if a large csv file
-            set_time_limit(0);
+        $options = array(
+                "delimiter" => ',',
+                "table" => 'mAirlist',
+                "fields" => ''
+        );
 
-            $row = 0;
-
-            while(($data = fgetcsv($handle, 0, ',')) !== FALSE) {
-                // number of fields in the csv
-                $col_count = count($data);
-                
-
-                // get the values from the csv
-                $csv[$row]['id'] = $data[0];
-                $csv[$row]['col2'] = $data[1];
-                $csv[$row]['col3'] = $data[2];
-                $csv[$row]['artist'] = $data[3];
-                $csv[$row]['title'] = $data[4];
-
-                // inc the row
-                $row++;
-            }
-            fclose($handle);
-
-            echo 'Number of records found: '.$col_count;
-
-            foreach($csv as $row){
-                echo $row['id'].'<br>';
-                echo $row['artist'].'<br>';
-                echo $row['title'].'<br>';
-            }
-            
-        }
-    //}
-}
+        import_csv_to_sqlite($pdo,$name,$options);
+    }
 }
 
 ?>

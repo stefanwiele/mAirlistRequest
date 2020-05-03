@@ -61,6 +61,9 @@ function addRequestToDB($databaseID,$ipaddress) {
     $date = date('m/d/Y h:i:s a', time());
 
     $db->exec("INSERT INTO requests(databaseID, ipaddress, datetime, active) VALUES('$databaseID', '$ipaddress', '$date', 'true')");
+    
+    $db->close();
+    unset($db);
 }    
 
 function getLastRequestFromDB(){
@@ -72,7 +75,8 @@ function getLastRequestFromDB(){
         $dbid = $row[1];
         $db->exec("UPDATE requests SET active='false' WHERE databaseID='".$dbid."'");
     }
-    
+    $db->close();
+    unset($db);
     return $dbid;
 }
 
