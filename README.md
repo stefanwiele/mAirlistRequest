@@ -1,5 +1,7 @@
 Welcome to the start of the mAirlist Request Project. Goal is to build a request engine for mAirlist that is easy to implement, secure and easy to use. Feel free to collaborate.
 
+Word version of the install manual can be found here and is easier to use: https://onedrive.live.com/redir?resid=94F89C5E5BD71690!714333&authkey=!AG0jKQDBuLerXxw&ithint=file%2cdocx&fbclid=IwAR1OsbVh4alXPJHr6LWsdWUOl4x5dgs7WjYz97b5JoX9HQsYWNbXGvaetHw
+
 This is a quick install guide for the beta version of the MairlistRequest module. This module allows you to enable your listerners to request a song and get it added automatically to mAirlist. 
 
 The module exits of two components: 
