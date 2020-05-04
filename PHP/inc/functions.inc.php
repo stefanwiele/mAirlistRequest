@@ -46,6 +46,24 @@ function searchSQLiteDatabase($searchTerm){
     return $data;
 }
 
+function GetAllRequestAsJson(){
+    $db = new SQLite3('mAirlistRequest.db');
+    $res = $db->query("SELECT * FROM requests WHERE active='true'");
+    
+    //Create array to keep all results
+    $data= array();
+
+    while ($row = $res->fetchArray(1)) {
+        //insert row into array
+        array_push($data, $row);  
+    }
+
+    $db->close();
+    unset($db);
+
+    return $data;
+}
+
 function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$dbid) {
     
     //Contruct REST url
@@ -87,7 +105,8 @@ function addRequestToDB($databaseID,$ipaddress) {
 function getLastRequestFromDB(){
 
     $db = new SQLite3('mAirlistRequest.db');
-    $res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
+    //$res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
+    $res = $db->query("SELECT * FROM requests LIMIT 1");
     $dbid = '';
 
     while ($row = $res->fetchArray()) {

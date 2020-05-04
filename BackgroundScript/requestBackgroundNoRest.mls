@@ -1,11 +1,12 @@
 var
 	iInsertLocation, i: INTEGER;
-	insertItemID: string;
+	insertItemID, phpUrl: string;
 const	
 	
 	//Only change these values	
 
 	sDummyTitle = 'Request'; // Title of Dummy item to replace
+	sPHPRootUrl = 'http://192.168.1.65/mairlistrequest/php'; // Url of the PHP base without the slash
 
 function findDummy: integer;
 begin
@@ -24,7 +25,8 @@ end;
 
 function getRequestFromAPI: string;
 begin
-	result := HTTPGet('http://192.168.1.65:8000/api.php/getrequest');
+	phpUrl := sPHPRootUrl +'/api.php/getrequest';
+	result := HTTPGet(phpUrl);
 end;
 
 begin
@@ -32,9 +34,16 @@ begin
 	if findDummy > 0 then begin			
 
 		insertItemID := getRequestFromAPI;
-		CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
-		CurrentPlaylist.Delete(i);
-		//Response := Factory.CreatePersistentObject.SetString('success','true');	
+
+		if insertItemID <> '' then begin
+			CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
+			CurrentPlaylist.Delete(i);
+			SystemLog('Added Request');
+		end
+		else
+		begin
+			SystemLog('No Request in queue');
+		end;
 	end
 	else
 	begin

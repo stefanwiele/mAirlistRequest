@@ -18,7 +18,14 @@
     
     // get the HTTP method, path and body of the request
     $method = $_SERVER['REQUEST_METHOD'];
+
+    if (isset($_SERVER['PATH_INFO'])){
     $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
+    }
+    else{
+        echo 'not implemented';
+        exit;
+    }
     
     switch ($method) {
         case 'GET':
@@ -63,6 +70,10 @@
                     else {
                         echo 'searchterm is missing';
                     }
+                break;
+                case 'getallrequests':
+                    $results = GetAllRequestAsJson();                    
+                    echo json_encode($results);
                 break;
                 default:
                     echo 'not implemented';
