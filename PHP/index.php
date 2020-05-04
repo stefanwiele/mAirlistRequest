@@ -21,18 +21,17 @@
 					var search = $('#search').val();
 					
 					$.ajax({
-						url: "request.php",
-						type: "GET",
-						data:{search:search},
+						url: "api.php"+"/search/"+search,
+						type: "GET",						
 						dataType:"JSON",						
 						success:function(res) {
 							
 							var data_table = '';
 							$.each(res, function(i, item){
 								
-								data_table += "<tr><td>"+item.Artist+"</td>";
-								data_table += "<td>"+item.Title+"</td>";
-								data_table += "<td><p class='test'>"+item.DatabaseID+"</p></td></tr>";
+								data_table += "<tr><td>"+item.artist+"</td>";
+								data_table += "<td>"+item.title+"</td>";
+								data_table += "<td><p class='test'>"+item.databaseID+"</p></td></tr>";
 							});	
 						$('#results').append(data_table);
 						}

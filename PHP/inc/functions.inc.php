@@ -28,6 +28,24 @@ function searchmAirlistDatabase($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$s
     return $response;
 }
 
+function searchSQLiteDatabase($searchTerm){
+    $db = new SQLite3('mAirlistRequest.db');
+    $res = $db->query("SELECT * FROM music WHERE artist LIKE '%".$searchTerm."%' OR title LIKE '%".$searchTerm."%'");
+
+    //Create array to keep all results
+    $data= array();
+
+    while ($row = $res->fetchArray(1)) {
+        //insert row into array
+        array_push($data, $row);  
+    }
+
+    $db->close();
+    unset($db);
+
+    return $data;
+}
+
 function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$dbid) {
     
     //Contruct REST url

@@ -12,5 +12,7 @@
 
     $limitApiAccess = false; //Protect acccess to the getrequest api
     $allowIpApi = '192.168.1.79'; //IP used by mAirlist PC to query rest api
+
+    $uploadCsvSecret = 'changeme';
     
 ?>

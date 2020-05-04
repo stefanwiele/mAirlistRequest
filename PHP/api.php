@@ -28,6 +28,7 @@
                 case 'getrequest':                    
 
                     if (!$getAllowed) {echo 'not allowed'; exit;};
+
                     echo getLastRequestFromDB();
             
                 break;    
@@ -50,7 +51,19 @@
                     else {
                         echo 'database id missing';
                     }
-                break;       
+                break;  
+                case 'search':
+                    if (isset($request[1])) {
+                        $searchTerm = $request[1];
+                        $dbresults = searchSQLiteDatabase($searchTerm);
+
+                        echo json_encode($dbresults);                                                
+                        
+                    }
+                    else {
+                        echo 'searchterm is missing';
+                    }
+                break;
                 default:
                     echo 'not implemented';
             }
