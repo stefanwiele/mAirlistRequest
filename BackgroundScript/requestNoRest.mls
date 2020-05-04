@@ -29,8 +29,6 @@ begin
 	result := HTTPGet(phpUrl);
 end;
 
-procedure OnPlayerStart(PlaylistIndex: integer; PlayerIndex: integer; Item: IPlaylistItem);
-
 begin
 
 	if findDummy > 0 then begin			
@@ -52,4 +50,4 @@ begin
 		//Response := Factory.CreatePersistentObject.SetString('success','false');	
 	end;
 	
-end;
+end.
