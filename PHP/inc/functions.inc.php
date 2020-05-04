@@ -105,8 +105,8 @@ function addRequestToDB($databaseID,$ipaddress) {
 function getLastRequestFromDB(){
 
     $db = new SQLite3('mAirlistRequest.db');
-    //$res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
-    $res = $db->query("SELECT * FROM requests LIMIT 1");
+    $res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
+    //$res = $db->query("SELECT * FROM requests LIMIT 1");
     $dbid = '';
 
     while ($row = $res->fetchArray()) {

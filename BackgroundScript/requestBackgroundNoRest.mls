@@ -41,6 +41,7 @@ begin
 			CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
 			CurrentPlaylist.Delete(i);
 			SystemLog('Added Request');
+            
 		end
 		else
 		begin
