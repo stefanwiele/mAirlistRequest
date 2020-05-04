@@ -16,6 +16,10 @@ begin
 		if CurrentPlaylist.GetItem(i).GetTitle = sDummyTitle then begin
 			iInsertLocation := i+1;			
 			break;
+		end
+		else
+		begin
+			iInsertLocation := 0;
 		end;
 	end;
 
@@ -41,7 +45,6 @@ begin
 			CurrentPlaylist.Insert(iInsertLocation, Database(0).CreatePlaylistItem(insertItemID));
 			CurrentPlaylist.Delete(i);
 			SystemLog('Added Request');
-            
 		end
 		else
 		begin
