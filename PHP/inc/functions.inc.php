@@ -29,13 +29,20 @@ function searchmAirlistDatabase($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$s
 }
 
 function searchSQLiteDatabase($searchTerm){
+
+
+
     $db = new SQLite3('mAirlistRequest.db');
-    $res = $db->query("SELECT * FROM music WHERE artist LIKE '%".$searchTerm."%' OR title LIKE '%".$searchTerm."%'");
+    
+    $stmt = $db->prepare("SELECT * FROM music WHERE artist LIKE '%' || :searchfor || '%' OR title LIKE '%' || :searchfor || '%'");
+    $stmt->bindValue(':searchfor', $searchTerm,SQLITE3_TEXT);
+    
+    $res = $stmt->execute();    
 
     //Create array to keep all results
-    $data= array();
-
-    while ($row = $res->fetchArray(1)) {
+    $data= array();  
+    
+    while ($row = $res->fetchArray()) {
         //insert row into array
         array_push($data, $row);  
     }
