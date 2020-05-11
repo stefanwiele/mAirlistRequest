@@ -6,6 +6,12 @@
 		<script>
 			$(document).ready(function(){
 
+				$('#search').keyup(function(e){
+   					if(e.keyCode == 13)
+    			{
+        			$('#getData').click();
+    			}
+				});
 		
     				$('#getData').on('click',function(){
 					var search = $('#search').val();
