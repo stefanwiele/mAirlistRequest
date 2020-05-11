@@ -24,6 +24,7 @@
     }
     else{
         echo 'not implemented';
+        http_response_code(400);
         exit;
     }
     
@@ -47,6 +48,7 @@
                         //Validate if ID is an INT
                         if (!filter_var($id, FILTER_VALIDATE_INT)) {
                             echo("input not valid");
+                            http_response_code(400);
                             exit;
                         } 
 
@@ -57,6 +59,7 @@
                     }
                     else {
                         echo 'database id missing';
+                        http_response_code(400);
                     }
                 break;  
                 case 'search':
@@ -69,6 +72,7 @@
                     }
                     else {
                         echo 'searchterm is missing';
+                        http_response_code(400);
                     }
                 break;
                 case 'getallrequests':
@@ -77,10 +81,12 @@
                 break;
                 default:
                     echo 'not implemented';
+                    http_response_code(400);
             }
         break;
         default:
             echo 'not implemented';
+            http_response_code(400);
         }
 
 ?>
