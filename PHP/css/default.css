@@ -1,0 +1,74 @@
+body {
+    background: #485563;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
+  h1 {
+    color: white;   
+   
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;    
+  }
+
+  tr {
+   width: 100%;
+   cursor: pointer;
+  }
+  
+  tr:hover {background-color:#45a049;}
+
+  .button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+ 
+  .button:hover {
+    background-color: #45a049;
+  }
+
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+
+  label {
+    cursor: default;
+    border-radius: 5px;
+    background-color: #45a049;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+ 
+  

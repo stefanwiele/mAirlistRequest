@@ -1,20 +1,8 @@
 <html>
     <head>
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    	
-
-    	<title>mAirlist search</title>
-	</head>
-	
-    <body>
-		<br />
+		<link rel="stylesheet" type="text/css" href="./css/default.css">
 		
-        <input type="text" id="search" />
-		<input type="button" id="getData" value="Search"/>
-
-		<div id='results'></div>	
-		<br />
-
 		<script>
 			$(document).ready(function(){
     				$('#getData').on('click',function(){
@@ -26,28 +14,32 @@
 						dataType:"JSON",						
 						success:function(res) {
 							
+							$('#results').html("");
 							var data_table = '';
+							data_table += "<table>";
 							$.each(res, function(i, item){
 								
-								data_table += "<tr><td>"+item.artist+"</td>";
-								data_table += "<td>"+item.title+"</td>";
-								data_table += "<td><p class='test'>"+item.databaseID+"</p></td></tr>";
+								data_table += "<tr class='request' id="+item.databaseID+"><td>"+item.artist+"</td>";
+								data_table += "<td>"+item.title+"</td></tr>";								
 							});	
+							data_table += "</table>";
 						$('#results').append(data_table);
 						}
 						   			
 					});
 					
 				});
-				$('#results').on('click', 'p.test',function(){
+				$('#results').on('click', 'tr.request',function(){
 						
-					var id = $(this).text();
+					//var id = $(this).text();
+					var id = $(this).attr('id');
+
 						$.ajax({
 						url: "api.php"+"/setrequest/"+id,
 						type: "GET",	
 						dataType: 'text',				
 						success:function() {
-							alert('request added');
+							alert('Request successfully added');
 						}
 					});
 					});							
@@ -57,5 +49,22 @@
 			
 
   	   	</script>
+
+    	<title>mAirlistRequest - Home</title>
+	</head>
+	
+    <body>			
+		<br />
+			<form>
+			    <label for "search">Search for your request:</label>
+        		<input type="text" id="search" />
+				<input type="button" id="getData" class="button" value="Search"/>
+			</form>
+	
+		
+
+		<div id='results'></div>				
+
+		
         
 </html>
