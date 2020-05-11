@@ -47,8 +47,9 @@
 						type: "GET",	
 						dataType: 'text',				
 						success:function() {
-							alert('Request successfully added');
-						}
+							alert('Request successfully added');						
+						}					
+
 					});
 					});							
 
