@@ -62,6 +62,10 @@ body {
     padding: 20px;
   }
 
+  div:empty {
+    display: none;
+ }
+
   label {
     cursor: default;
     border-radius: 5px;
@@ -69,6 +73,7 @@ body {
     padding: 20px;
     font-family: Arial, Helvetica, sans-serif;
   }
+  
 
  
   

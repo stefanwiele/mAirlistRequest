@@ -2,9 +2,11 @@
     <head>
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="./css/default.css">
-		
+
 		<script>
 			$(document).ready(function(){
+
+		
     				$('#getData').on('click',function(){
 					var search = $('#search').val();
 					
@@ -55,16 +57,17 @@
 	
     <body>			
 		<br />
-			<form>
+		
+			
 			    <label for "search">Search for your request:</label>
         		<input type="text" id="search" />
 				<input type="button" id="getData" class="button" value="Search"/>
-			</form>
+			
 	
 		
 
 		<div id='results'></div>				
-
+		
 		
         
 </html>
