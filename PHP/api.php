@@ -76,6 +76,8 @@
                     }
                 break;
                 case 'getallrequests':
+                    if (!$getAllowed) {echo 'not allowed'; exit;};
+
                     $results = GetAllRequestAsJson();                    
                     echo json_encode($results);
                 break;
