@@ -1,10 +1,20 @@
+
+
+<html>
+	<head>
+		<title>mAirlistRequest - Update Database from CSV</title>
+		<link rel="stylesheet" type="text/css" href="./css/default.css">
+	</head>
+<body>
 <form action="uploadcsv.php" method="post" enctype="multipart/form-data">
-1. Export CSV from mAirlist Database Window.<br>2. Select the file.<br>3. Enter secret from settings file and press Update Database.<br>
-<table>
-<tr><td><input type="file" name="csv" value="" /><br></td></tr>
-<tr><td>Secret:<input type="password" name="secret" /><br></td></tr>
-<tr><td><input type="submit" name="submit" value="Update Database" /></form></td</tr>
-</table>
+
+<div id='uploadcsv'>
+<center>
+<label>Step 1: Export CSV from mAirlist Database Window. And select the file using this button -><input type="file" name="csv" value="" /></label><br><br>
+<label>Step 2: Enter secret from settings file here -><input type="password" name="secret" /></label><br><br>
+<label>Step 3: Press Update Database -><input type="submit" name="submit" value="Update Database" /></label></form>
+</center>
+</div>
 
 <?php
 
@@ -16,17 +26,17 @@ ini_set('auto_detect_line_endings',TRUE);
 
 function import_csv_to_sqlite ($filename, $dbname){
 	
-		echo 'Open csv'.'<br>';
+		echo '<tr><td>Open csv...</td></tr>';
 		$csv = parse_my_csv($filename);
 		$db = new SQLite3($dbname);
 
 		$i = count($csv)-1;
 
-		echo 'Deleting table and vacuum <br>';
+		echo '<tr><td>Deleting table and vacuum...</td></tr>';
 		$db->exec('DELETE FROM music');		
 		$db->exec('VACUUM');		
 
-		echo 'Creating Query'.'<br>';
+		echo '<tr><td>Creating Query...</td></tr>';
 		$query = 'INSERT into music (databaseID, artist, title, folder) VALUES ';
 
 		
@@ -49,12 +59,14 @@ function import_csv_to_sqlite ($filename, $dbname){
 			$i--;			
 		}
 
-		echo 'Executing Query'.'<br>';
+		echo '<tr><td>Executing Query...</td></tr>';
 		$db->exec($query);
 
 
 		$db->close();
-    	unset($db);
+		unset($db);
+		
+		echo '<tr><td>Done...</td></tr>';
 
 
 }
@@ -83,6 +95,7 @@ if(isset($_POST['submit']))
 
     $csv = array();
 
+	echo '<table>';
     
     // check there are no errors
     	if($_FILES['csv']['error'] == 0){
@@ -94,6 +107,10 @@ if(isset($_POST['submit']))
 		}
 		else {echo 'CSV has errors'; exit;}
 
+		echo '</table>';
+
 }
 
 ?>
+</body>
+</html>
