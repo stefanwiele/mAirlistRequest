@@ -53,9 +53,14 @@
                         } 
 
                         $current_ip = $_SERVER['REMOTE_ADDR'];
-                
+                        if (isRequestAllowed($current_ip,$numberofActiveRequests)){
                         addRequestToDB($id,$current_ip);
                         echo 'success';                        
+                        }
+                        else {
+                            echo 'ip address has exceeded number of requests';
+                            http_response_code(409);
+                        }
                     }
                     else {
                         echo 'database id missing';
@@ -80,10 +85,10 @@
 
                     $results = GetAllRequestAsJson();                    
                     echo json_encode($results);
-                break;
+                break;                
                 default:
                     echo 'not implemented';
-                    http_response_code(400);
+                    http_response_code(405);
             }
         break;
         default:

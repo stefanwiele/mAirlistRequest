@@ -65,15 +65,15 @@
     <body>			
 		<br />
 		
-			
+			<div id='searchbox'>
 			    <label for "search">Search for your request:</label>
         		<input type="text" id="search" />
 				<input type="button" id="getData" class="button" value="Search"/>
-			
+			</div>
 	
 		
 
-		<div id='results'></div>				
+		<div id='results' class='results'></div>				
 		
 		
         

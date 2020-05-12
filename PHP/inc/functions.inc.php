@@ -99,6 +99,7 @@ function insertmAirlistRequest($mlistIP,$mlistPort,$mlistUser,$mlistPassword,$db
     return $response;
 }
 
+//function to add request to DB
 function addRequestToDB($databaseID,$ipaddress) {
     $db = new SQLite3('mAirlistRequest.db');
     $date = date('m/d/Y h:i:s a', time());
@@ -109,11 +110,12 @@ function addRequestToDB($databaseID,$ipaddress) {
     unset($db);
 }    
 
+//function to retreive last request from DB
 function getLastRequestFromDB(){
 
     $db = new SQLite3('mAirlistRequest.db');
     $res = $db->query("SELECT * FROM requests WHERE active='true' LIMIT 1");
-    //$res = $db->query("SELECT * FROM requests LIMIT 1");
+    
     $dbid = '';
 
     while ($row = $res->fetchArray()) {
@@ -124,6 +126,27 @@ function getLastRequestFromDB(){
     unset($db);
     
     return $dbid;
+}
+
+//function to check if number of requests is not exceeded
+function isRequestAllowed($ipaddress, $numberofRequests){
+
+    $db = new SQLite3('mAirlistRequest.db');
+    $stmt = $db->prepare("SELECT count(*) as count FROM requests WHERE ipaddress=:ipaddress and active='true'");
+    $stmt->bindValue(':ipaddress', $ipaddress,SQLITE3_TEXT);
+
+    $res = $stmt->execute(); 
+    $row = $res->fetchArray();
+    $numRows = $row['count'];
+
+    if ($numRows > $numberofRequests){
+        return false;
+    }
+    else {
+        return true;
+    }
+
+    
 }
 
 ?>
