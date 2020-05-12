@@ -2,7 +2,8 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="../js/admin.js"></script>
-        <link rel="stylesheet" type="text/css" href="../css/default.admin.css">
+        <link rel="stylesheet" type="text/css" href="../css/default.css">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
 
         <script>
            

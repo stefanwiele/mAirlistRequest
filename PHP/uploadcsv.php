@@ -27,16 +27,22 @@ ini_set('auto_detect_line_endings',TRUE);
 function import_csv_to_sqlite ($filename, $dbname){
 	
 		echo '<tr><td>Open csv...</td></tr>';
-		$csv = parse_my_csv($filename);
+		
+		//$csv = parse_my_csv($filename);
+		$csv = test($filename);
 		$db = new SQLite3($dbname);
 
-		$i = count($csv)-1;
+		$i = count($csv)-1;		
 
-		echo '<tr><td>Deleting table and vacuum...</td></tr>';
-		$db->exec('DELETE FROM music');		
-		$db->exec('VACUUM');		
+		echo '<tr><td>Deleting table and vacuum...';
+		if ($db->exec('DELETE FROM music') && $db->exec('VACUUM')){
+			echo '<b>Success</b></td></tr>';
+		}
+		else {
+			echo '<b>Failed</b></td></tr>';
+		}
 
-		echo '<tr><td>Creating Query...</td></tr>';
+		echo '<tr><td>Creating Query for <b>'.$i.' </b>items...</td></tr>';
 		$query = 'INSERT into music (databaseID, artist, title, folder) VALUES ';
 
 		
@@ -45,7 +51,7 @@ function import_csv_to_sqlite ($filename, $dbname){
 			$databaseid = $csv[$i][0];			
 			$artist = SQLite3::escapeString($csv[$i][4]);
 			$title = SQLite3::escapeString($csv[$i][3]);
-		
+			
 
 			if ($i <> 1) {
 				$query = $query .= "('".$databaseid."','".$artist."','".$title."','0'),";
@@ -59,25 +65,50 @@ function import_csv_to_sqlite ($filename, $dbname){
 			$i--;			
 		}
 
-		echo '<tr><td>Executing Query...</td></tr>';
-		$db->exec($query);
+		echo '<tr><td>Executing Query...';
+		if ($db->exec($query)){
+			echo '<b>Success</b></td></tr>';
+		}
+		else {
+			echo '<b>Failed</b></td></tr>';
+		}
+
+		//echo $query;
 
 
 		$db->close();
 		unset($db);
 		
-		echo '<tr><td>Done...</td></tr>';
+		echo '<tr><td><b>Done!</b></td></tr>';
 
 
 }
 
 
 function parse_my_csv($filename) { 
-    $lines = file($filename);
-    $data = array();
+	
+	$lines = file($filename, FILE_IGNORE_NEW_LINES);	
+	
+	
+	$data = array();
+	
     for($i=0;$i<count($lines);$i++) { 
        array_push($data, str_getcsv($lines[$i]));
-    }
+	}
+	
+ return $data;
+}
+
+function test($filename) {
+	$file = fopen($filename, 'r');
+	$data = [];
+
+	while ($row = fgetcsv($file)) {
+    	 $data[] = $row;
+}
+
+fclose($file);
+
  return $data;
 }
 
@@ -95,7 +126,7 @@ if(isset($_POST['submit']))
 
     $csv = array();
 
-	echo '<table>';
+	echo '<div><table>';
     
     // check there are no errors
     	if($_FILES['csv']['error'] == 0){
@@ -107,7 +138,7 @@ if(isset($_POST['submit']))
 		}
 		else {echo 'CSV has errors'; exit;}
 
-		echo '</table>';
+		echo '</table></div>';
 
 }
 

@@ -3,6 +3,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="./js/search.js"></script>
 		<link rel="stylesheet" type="text/css" href="./css/default.css">
+		<link rel="stylesheet" type="text/css" href="./css/search.css">
 
     	<title>mAirlistRequest - Home</title>
 	</head>
@@ -11,7 +12,7 @@
 	
 
 		<ul id='menu'> 
-  			<li class='search'>Home</li>
+  			<li class='home'>Home</li>
   			<li class='requests'>My Requests</li>
 		  </ul> 
 		  

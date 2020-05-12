@@ -68,11 +68,7 @@ body {
     margin: 0 auto;
     padding-top: 50;
   }
-
-  div.results {
-    margin-top: 10;
-  }
-
+  
   div:empty {
     display: none;
  }
