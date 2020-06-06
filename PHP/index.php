@@ -13,7 +13,8 @@
 
 		<ul id='menu'> 
   			<li class='home'>Home</li>
-  			<li class='requests'>My Requests</li>
+			  <li class='requests'>My Requests</li>
+			  <li class='admin'><a href='./admin/'>Admin</a></li>
 		  </ul> 
 		  
 		  <br />

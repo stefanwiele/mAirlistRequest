@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<title>mAirlistRequest - Update Database from CSV</title>
-		<link rel="stylesheet" type="text/css" href="./css/default.css">
+		<link rel="stylesheet" type="text/css" href="../css/default.css">
 	</head>
 <body>
 <form action="uploadcsv.php" method="post" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
 
 
 //get settings
-include('./inc/settings.inc.php');
+include('../inc/settings.inc.php');
 
 ini_set('auto_detect_line_endings',TRUE);
 

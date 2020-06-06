@@ -68,7 +68,7 @@ body {
     margin: 0 auto;
     padding-top: 50;
   }
-  
+
   div:empty {
     display: none;
  }
@@ -81,7 +81,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
   }
-  ul {
+  #menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -91,7 +91,7 @@ body {
     top: 0;
     width: 100%;      
     
-  }
+  } 
   
   li {
     float: left;
@@ -100,10 +100,20 @@ body {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+   
   }
+
+
   
   li:hover {
     background-color: #111;
     cursor: pointer;
     
   }
+
+  user.li:hover {
+    background-color: red;
+    cursor: pointer;
+    
+  }
+
